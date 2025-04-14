@@ -46,20 +46,15 @@ public class GoogleSearchClient(string apiKey, string searchEngineId)
         {
             var item = items[i];
             results[i] = new SearchResult
-            {
-                Title = item.GetProperty("title").GetString(),
-                Link = item.GetProperty("link").GetString(),
-                Snippet = item.GetProperty("snippet").GetString()
-            };
+            (
+                item.GetProperty("title").GetString() ?? string.Empty,
+                item.GetProperty("link").GetString() ?? string.Empty,
+                item.GetProperty("snippet").GetString() ?? string.Empty
+            );
         }
         
         return results;
     }
 }
 
-public class SearchResult
-{
-    public string Title { get; set; }
-    public string Link { get; set; }
-    public string Snippet { get; set; }
-}
+public record SearchResult(string Title, string Link, string Snippet);
